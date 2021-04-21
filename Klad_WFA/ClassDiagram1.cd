@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Klad_WFA.bonus.ArmorBonus" Collapsed="true">
+    <Position X="1" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQAAAA=</HashCode>
+      <FileName>bonus\ArmorBonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Klad_WFA.bonus.ArmorFactory" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>bonus\ArmorFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Klad_WFA.Bonus" Collapsed="true">
+    <Position X="8.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAgAAAAgAAAABCAAAAAAAAAAABAAAAIAQAAAA=</HashCode>
+      <FileName>bonus\Bonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Klad_WFA.bonus.BonusFactory" Collapsed="true">
+    <Position X="9.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>bonus\BonusFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Klad_WFA.bonus.HealthBonus" Collapsed="true">
+    <Position X="10.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQAAAA=</HashCode>
+      <FileName>bonus\HealthBonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Klad_WFA.bonus.HealthFactory" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>bonus\HealthFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Klad_WFA.bonus.PatronBonus" Collapsed="true">
+    <Position X="8.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQAAAA=</HashCode>
+      <FileName>bonus\PatronBonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Klad_WFA.bonus.SpeedUpFactory" Collapsed="true">
+    <Position X="1.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>bonus\SpeedUpFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Klad_WFA.bonus.UpBonus" Collapsed="true">
+    <Position X="5.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAQAAAAQAAAA=</HashCode>
+      <FileName>bonus\UpBonus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

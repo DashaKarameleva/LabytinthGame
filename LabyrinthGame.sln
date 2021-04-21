@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "labyrinth", "Klad_WFA\labyrinth.csproj", "{BD3B1D9D-7656-4979-AD02-A861E7E51447}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsGame", "WinFormsGame\WinFormsGame.csproj", "{848D5E4A-BBF4-4F39-BDA4-0FC571A2C825}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD3B1D9D-7656-4979-AD02-A861E7E51447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD3B1D9D-7656-4979-AD02-A861E7E51447}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD3B1D9D-7656-4979-AD02-A861E7E51447}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD3B1D9D-7656-4979-AD02-A861E7E51447}.Release|Any CPU.Build.0 = Release|Any CPU
+		{848D5E4A-BBF4-4F39-BDA4-0FC571A2C825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{848D5E4A-BBF4-4F39-BDA4-0FC571A2C825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{848D5E4A-BBF4-4F39-BDA4-0FC571A2C825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{848D5E4A-BBF4-4F39-BDA4-0FC571A2C825}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {426A4682-4507-431C-BBF4-BAF48CB30541}
+	EndGlobalSection
+EndGlobal
