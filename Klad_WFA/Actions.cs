@@ -1,242 +1,284 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-//using labyrinth.maze;
+using System.Threading;
+using labyrinth;
 using labyrinth.bonus;
+using labyrinth.Bullet;
 using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-
-
 namespace labyrinth
 {
-    class Actions
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Actions
     {
-        public static void PlayersMoves(Player player1, Player player2, List<Sides> sides, List<Bonus> boosts, List<Monster> monsters, List<Sides> createSides)
+        static bool isShotPlayer1 = true;
+        static bool isShotPlayer2 = true;
+        static bool isSwitchPlayer1 = true;
+        static bool isSwitchPlayer2 = true;
+        private static Level level = new Level();
+        static List<GameObject> RemoveList = new List<GameObject>();
+
+        /// <summary>
+        /// Games the object move.
+        /// </summary>
+        /// <param name="player1">The player1.</param>
+        /// <param name="player2">The player2.</param>
+        /// <param name="sides">The sides.</param>
+        /// <param name="boosts">The boosts.</param>
+        /// <param name="monsters">The monsters.</param>
+        public void GameObjectMove(Player player1, Player player2, List<Sides> sides, List<Bonus> boosts, List<Monster> monsters, List<ObjectBullet> patrons)
         {
-            
-            Collision collision = new Collision(player1, player2, sides, createSides);
-
+            Collision collision = new Collision(player1, player2, sides, monsters);
             KeyboardState kb_state = Keyboard.GetState();
-
-            if (boosts.Count < 10)
+            if (boosts.Count < 15)
             {
-                Levels.CreateBonus(sides, boosts);
-            }
-
-            //if (monsters.Count < 6)
-            //{
-            //    Levels.CreateMonster(sides, monsters);
-            //}
-
-
-
-
-            //MOVE
-            //PL1
+                level.CreateBonus(sides, boosts);
+            } 
             if (kb_state.IsKeyDown(Key.D))
-            {            
+            {
                 if (collision.MoveD()) player1.Move(new Vector2(+player1.speed, 0));
-                player1.direction = Direction.Right;
+                player1.SetDirection(Direction.Right);
             }
             if (kb_state.IsKeyDown(Key.A))
             {
-                if(collision.MoveA()) player1.Move(new Vector2(-player1.speed, 0));
-                player1.direction = Direction.Left;
+                if (collision.MoveA()) player1.Move(new Vector2(-player1.speed, 0));
+                player1.SetDirection(Direction.Left);
             }
             if (kb_state.IsKeyDown(Key.W))
             {
-                if(collision.MoveW()) player1.Move(new Vector2(0, -player1.speed));
-                player1.direction = Direction.Up;
+                if (collision.MoveW()) player1.Move(new Vector2(0, -player1.speed));
+                player1.SetDirection(Direction.Up);
             }
             if (kb_state.IsKeyDown(Key.S))
             {
-                if(collision.MoveS()) player1.Move(new Vector2(0, +player1.speed));
-                player1.direction = Direction.Down;
+                if (collision.MoveS()) player1.Move(new Vector2(0, +player1.speed));
+                player1.SetDirection(Direction.Down);
             }
-
-            //PL2
             if (kb_state.IsKeyDown(Key.Left))
             {
-                if(collision.MoveLeft()) player2.Move(new Vector2(-player2.speed, 0));
-                player2.direction = Direction.Left;
+                if (collision.MoveLeft()) player2.Move(new Vector2(-player2.speed, 0));
+                player2.SetDirection(Direction.Left);
             }
             if (kb_state.IsKeyDown(Key.Right))
             {
-                if(collision.MoveRight()) player2.Move(new Vector2(+player2.speed, 0));
-                player2.direction = Direction.Right;
+                if (collision.MoveRight()) player2.Move(new Vector2(+player2.speed, 0));
+                player2.SetDirection(Direction.Right);
             }
             if (kb_state.IsKeyDown(Key.Up))
             {
-                if(collision.MoveUp()) player2.Move(new Vector2(0, -player2.speed));
-                player2.direction = Direction.Up;
+                if (collision.MoveUp()) player2.Move(new Vector2(0, -player2.speed));
+                player2.SetDirection(Direction.Up);
             }
             if (kb_state.IsKeyDown(Key.Down))
             {
-                if(collision.MoveDown()) player2.Move(new Vector2(0, +player2.speed));
-                player2.direction = Direction.Down;
+                if (collision.MoveDown()) player2.Move(new Vector2(0, +player2.speed));
+                player2.SetDirection(Direction.Down);
+            }
+            if (kb_state.IsKeyDown(Key.Down))
+            {
+                if (collision.MoveDown()) player2.Move(new Vector2(0, +player2.speed));
+                player2.SetDirection(Direction.Down);
+            }
+            if (kb_state.IsKeyDown(Key.Space) && isShotPlayer1)
+            {
+                if(player1.BulletMagazine.Bullet.Shot())
+                    level.CreateBullet(patrons, player1);
+
+                isShotPlayer1 = false;
+            }
+            if (kb_state.IsKeyUp(Key.Space))
+            {
+                isShotPlayer1 = true;
             }
 
-
-            //DESTROY
-            //for (int i = 0; i < sides.Count; i++)
-            //{
-            //    if (kb_state.IsKeyDown(Key.E) && player1.destroy && sides[i].type == "TemporaryDestructible" && collision.DestroyCollision(player1, sides[i]))
-            //    {
-            //        sides[i] = new RestorationSides(sides[i], player1);
-            //    }
-            //    if (kb_state.IsKeyDown(Key.E) && player1.destroy && sides[i].type == "Destructible" && collision.DestroyCollision(player1, sides[i]))
-            //    {
-            //        sides[i] = new DestroySides(sides[i], player1);
-            //    }
-            //    if (kb_state.IsKeyDown(Key.Keypad1) && player2.destroy && sides[i].type == "TemporaryDestructible" && collision.DestroyCollision(player2, sides[i]))
-            //    {
-            //        sides[i] = new RestorationSides(sides[i], player2);
-            //    }
-            //    if (kb_state.IsKeyDown(Key.Keypad1) && player2.destroy && sides[i].type == "Destructible" && collision.DestroyCollision(player2, sides[i]))
-            //    {
-            //        sides[i] = new DestroySides(sides[i], player2);
-            //    }
-            //}
-            //for (int i = 0; i < sides.Count; i++)
-            //{
-            //    if (sides[i] is SidesDecorator && ((SidesDecorator)sides[i]).IsDecorate && ((SidesDecorator)sides[i]).TimeSetMinutes <= DateTime.Now.Minute)
-            //    {
-            //        if (((SidesDecorator)sides[i]).TimeSetMinutes < DateTime.Now.Minute || ((SidesDecorator)sides[i]).TimeSetSeconds <= DateTime.Now.Second && !collision.DestroyCollision(player1, sides[i]) && !collision.DestroyCollision(player2, sides[i]))
-            //        {
-            //            sides[i] = ((SidesDecorator)sides[i]).GetOldSides();
-            //        }
-            //    }
-            //}
-
-            ////CREATE
-            //if (kb_state.IsKeyDown(Key.Q) && player1.create)
-            //{
-            //    if (player1.direction == Direction.Left)
-            //    {
-            //        createSides.Add(new Sides(27, 27, "texture/side0.png", player1.Position + new Vector2(-30, 0), 4));
-            //    }
-            //    else if (player1.direction == Direction.Right)
-            //    {
-            //        createSides.Add(new Sides(27, 27, "texture/side0.png", player1.Position + new Vector2(+30, 0), 4));
-            //    }
-            //    else if (player1.direction == Direction.Up)
-            //    {
-            //        createSides.Add(new Sides(27, 27, "texture/side0.png", player1.Position + new Vector2(0, -30), 4));
-            //    }
-            //    else if (player1.direction == Direction.Down)
-            //    {
-            //        createSides.Add(new Sides(27, 27, "texture/side0.png", player1.Position + new Vector2(0, +30), 4));
-            //    }
-            //}
-            //if (kb_state.IsKeyDown(Key.Keypad2) && player2.create)
-            //{
-            //    if (player2.direction == Direction.Left)
-            //    {
-            //        createSides.Add(new Sides(27, 27, "texture/side0.png", player2.Position + new Vector2(-30, 0), 5));
-            //    }
-            //    else if (player2.direction == Direction.Right)
-            //    {
-            //        createSides.Add(new Sides(27, 27, "texture/side0.png", player2.Position + new Vector2(+30, 0), 5));
-            //    }
-            //    else if (player2.direction == Direction.Up)
-            //    {
-            //        createSides.Add(new Sides(27, 27, "texture/side0.png", player2.Position + new Vector2(0, -30), 5));
-            //    }
-            //    else if (player2.direction == Direction.Down)
-            //    {
-            //        createSides.Add(new Sides(27, 27, "texture/side0.png", player2.Position + new Vector2(0, +30), 5));
-            //    }
-            //}
-            //for (int i = 0; i < createSides.Count; i++)
-            //{
-            //    if (player1.create && createSides[i].type == "CreateBypl1" && !collision.CreateCollision(player2, createSides[i]))
-            //    {
-            //        createSides[i] = new CreateSides(createSides[i], player1);
-            //    }
-
-            //    if (player2.create && createSides[i].type == "CreateBypl2" && !collision.CreateCollision(player1, createSides[i]))
-            //    {
-            //        createSides[i] = new CreateSides(createSides[i], player2);
-            //    }
-
-            //    if (createSides.Count != 0 && createSides[i].type == "CreateBypl2") createSides.RemoveAt(i);
-            //    if (createSides.Count != 0 && createSides[i].type == "CreateBypl1") createSides.RemoveAt(i);
-
-            //}
-            //for (int i = 0; i < createSides.Count; i++)
-            //{
-
-            //    if (createSides[i] is SidesDecorator && ((SidesDecorator)createSides[i]).IsDecorate && ((SidesDecorator)createSides[i]).TimeSetMinutes <= DateTime.Now.Minute)
-            //    {
-            //        if (((SidesDecorator)createSides[i]).TimeSetMinutes < DateTime.Now.Minute || ((SidesDecorator)createSides[i]).TimeSetSeconds < DateTime.Now.Second)
-            //        {
-            //            createSides[i] = ((SidesDecorator)createSides[i]).GetOldSides();
-            //            createSides.RemoveAt(i);
-            //            i--;
-            //        }
-            //    }
-            //}
-
-
-            //BOOSTS
-            for (int i = 0; i < boosts.Count; i++)
+            if (kb_state.IsKeyDown(Key.E) && isSwitchPlayer1)
             {
-                //up
-                if (collision.IsCanBoosts(player1, boosts[i]) && !boosts[i].active)
-                {
-                    boosts[i].UpPlayer(player1);
-                }
-                else if (collision.IsCanBoosts(player2, boosts[i]) && !boosts[i].active)
-                {
-                    boosts[i].UpPlayer(player2);
-                }
+                player1.BulletMagazine.Switch();
 
+                isSwitchPlayer1 = false;
+            }
+            if (kb_state.IsKeyUp(Key.E))
+            {
+                isSwitchPlayer1 = true;
+            }
 
+            if (kb_state.IsKeyDown(Key.KeypadEnter) && isSwitchPlayer2)
+            {
+                player2.BulletMagazine.Switch();
 
-                //down
-                if (boosts[i] is UpBonus)
+                isSwitchPlayer2 = false;
+            }
+            if (kb_state.IsKeyUp(Key.KeypadEnter))
+            {
+                isSwitchPlayer2 = true;
+            }
+
+            if (kb_state.IsKeyDown(Key.Keypad0) && isShotPlayer2)
+            {
+                if (player2.BulletMagazine.Bullet.Shot())
+                    level.CreateBullet(patrons, player2);
+              
+                isShotPlayer2 = false;
+            }
+            if (kb_state.IsKeyUp(Key.Keypad0))
+            {
+                isShotPlayer2 = true;
+            }
+
+            for (int j = 0; j < boosts.Count; j++)
+            {
+                if (collision.IsCanBoosts(player1, boosts[j]) && !boosts[j].active)
                 {
-                    if (boosts[i].active && boosts[i].timeSetMinutes <= DateTime.Now.Minute)
+                    boosts[j].UpPlayer(player1);
+                    if (!(boosts[j] is UpBonus))
                     {
-                        if (boosts[i].timeSetSecond <= DateTime.Now.Second)
+                        boosts.RemoveAt(j);
+                        level.CreateBonus(sides, boosts);
+                    }
+
+                }
+                else if (collision.IsCanBoosts(player2, boosts[j]) && !boosts[j].active)
+                {
+                    boosts[j].UpPlayer(player2);
+                    if (!(boosts[j] is UpBonus))
+                    {
+                        boosts.RemoveAt(j);
+                        level.CreateBonus(sides, boosts);
+                    }
+
+                }
+                
+                if (boosts[j] is UpBonus)
+                {
+                    if (boosts[j].active && boosts[j].timeSetMinutes <= DateTime.Now.Minute)
+                    {
+                        if (boosts[j].timeSetSecond <= DateTime.Now.Second)
                         {
-                            if (boosts[i].player == player1)
+                            if (boosts[j].player == player1)
                             {
-                                boosts[i].DefaltPlayer(player1);
+                                boosts[j].DefaltPlayer(player1);
                             }
                             else
                             {
-                                boosts[i].DefaltPlayer(player2);
+                                boosts[j].DefaltPlayer(player2);
                             }
-                            boosts.RemoveAt(i);
-                            i--;
+                            boosts.RemoveAt(j);
+                            j--;
                         }
                     }
                 }
-
             }
-
-
-
-            //TREASURE
-            for (int i = 0; i < monsters.Count; i++)
+            for (int l = 0; l < monsters.Count; l++)
             {
-                if (collision.DestroyCollision(player1, monsters[i]))
+                if (collision.DestroyCollision(player1, monsters[l]))
                 {
-                    monsters.RemoveAt(i);
-                    player1.count++;
+                   
+                        player1.health = 10;
+                        player1.Position = new Vector2(35, 35);
+                        
+                    
                 }
             }
-            for (int i = 0; i < monsters.Count; i++)
+            for (int j = 0; j < monsters.Count; j++)
             {
-                if (collision.DestroyCollision(player2, monsters[i]))
+                if (collision.DestroyCollision(player2, monsters[j]))
                 {
-                    monsters.RemoveAt(i);
-                    player2.count++;
+                    
+                        player2.health = 10;
+                        player2.Position = new Vector2(1480, 750);
+                        
+                   
+                }
+            }
+            foreach (Monster monster in monsters)
+            {
+                if (!collision.MonsterMoveRight(monster))
+                {
+                    monster.SetDirection(Direction.Left);
+                }
+
+                if (!collision.MonsterMoveLeft(monster))
+                {
+                    monster.SetDirection(Direction.Right);
+                }
+
+                monster.Move();
+                if (DateTime.Now.Millisecond > 1 && DateTime.Now.Millisecond < 59)
+                {
+                    Level.CreateMonsterBullet(patrons, monster);
+                }
+            }
+            foreach (var patron in patrons)
+            {
+                if (collision.DestroyCollision(player2, patron))
+                {
+                   
+                    if(player2.armor>= patron.Power) player2.armor -= patron.Power;
+                    else player2.health -= patron.Power;
+                    if(player2.health <= 0)
+                    {
+                        player2.health = 10;
+                            if (player2.count >= 1)
+                            player2.count-=1;
+                        player2.Position = new Vector2(1480, 750);
+                    }
+                    RemoveList.Add(patron);
+
+                }
+
+                if (collision.DestroyCollision(player1, patron))
+                {
+                    if(player1.armor>= patron.Power) player1.armor -= patron.Power;
+                    else player1.health -= patron.Power;
+                    if (player1.health <= 0)
+                    {
+                        player1.health = 10;
+                        if(player1.count>=1)
+                        player1.count -= 1; 
+                        player1.Position = new Vector2(35, 35);
+                    }
+                    RemoveList.Add(patron);
+                }
+                for(int i=0;i<monsters.Count;i++)
+               // foreach(var monster in monsters)
+                {
+                    if (collision.DestroyCollision(monsters[i], patron))
+                    {
+                        monsters[i].Health -= patron.Power;
+                        RemoveList.Add(patron);
+                        if (monsters[i].Health <= 0 && patron.Tag == "player1")
+                        {
+                            monsters.RemoveAt(i);
+                            player1.count++;
+                        }
+                        else if (monsters[i].Health <= 0 && patron.Tag == "player2")
+                        {
+                            monsters.RemoveAt(i);
+                            player2.count++;
+                        }
+
+                    }
+                }
+
+                foreach (var side in sides)
+                {
+                    if (side.type != "Empty" && collision.DestroyCollision(patron,side))
+                    {
+                        RemoveList.Add(patron);
+                    }
+                }
+
+                patron.Move();
+            }
+
+            if(RemoveList.Count > 0)
+            {
+                foreach (var obj in RemoveList)
+                {
+                    patrons.Remove((ObjectBullet) obj);
+                    //((ObjectBullet)obj).Dispose();
                 }
             }
         }

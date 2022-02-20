@@ -1,21 +1,21 @@
-﻿using labyrinth;
-using labyrinth.Bullet;
+﻿
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace labyrinth
+namespace labyrinth.Bullet
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <seealso cref="labyrinth.GameObject" />
-    public class Monster : GameObject
+    public class ObjectBullet : GameObject
     {
+        public string Tag { get; set; }
         /// <summary>
         /// The type
         /// </summary>
-        public string type = "Monster";
+        public string type = "Bullet";
         /// <summary>
         /// The vertex buffer identifier
         /// </summary>
@@ -25,49 +25,27 @@ namespace labyrinth
         /// </summary>
         private float[] vertexData;
         /// <summary>
-        /// Gets or sets the health.
-        /// </summary>
-        /// <value>
-        /// The health.
-        /// </value>
-        public int Health { get; set; } = 4;
-        /// <summary>
         /// Gets or sets the speed.
         /// </summary>
         /// <value>
         /// The speed.
         /// </value>
-        public float speed { get; set; } = 1;
-        /// <summary>
-        /// Gets or sets the curr position.
-        /// </summary>
-        /// <value>
-        /// The curr position.
-        /// </value>
-        private Vector2 CurrPosition { get; set; }
-        private BulletMagazine bulletMagazine = new BulletMagazine();
-        public BulletMagazine BulletMagazine { get => bulletMagazine; }
+        public float speed { get; set; } = 5;
         /// <summary>
         /// Gets or sets the Direction movement.
         /// </summary>
         /// <value>
         /// The Direction movement.
         /// </value>
-        public Vector2 DirectionMovement { get; set; } = new Vector2(1,0);
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Monster"/> class.
-        /// </summary>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="filename">The filename.</param>
-        /// <param name="position">The position.</param>
-        /// 
+        private Vector2 DirectionMovement { get; set; } = new Vector2(1, 0);
 
-        public Monster(int width, int height, string filename, Vector2 position) : base(width, height, filename, position)
+        public int Power { get;  private set; }
+
+        public ObjectBullet(int width, int height, string filename, Vector2 position, int power) : base(width, height, filename, position)
         {
+            Power = power;
 
-            CurrPosition = position;
-            bulletMagazine.Add(new StandartTypeBullet(2, 1000));
+
             vertexData = new float[]
            {
                 position.X + 0.0f, position.Y + 0.0f,   0.0f,
@@ -80,6 +58,17 @@ namespace labyrinth
             GL.BufferData(BufferTarget.ArrayBuffer, vertexData.Length * sizeof(float), vertexData, BufferUsageHint.StaticRead);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
+
+        public void Damage(Player player)
+        {
+
+        }
+
+        public void Damage(Monster monster)
+        {
+
+        }
+
         /// <summary>
         /// Sets the Direction.
         /// </summary>
@@ -89,7 +78,7 @@ namespace labyrinth
             switch (directionMonster)
             {
                 case Direction.Up:
-                    DirectionMovement = new Vector2(0,-1);
+                    DirectionMovement = new Vector2(0, -1);
                     break;
                 case Direction.Down:
                     DirectionMovement = new Vector2(0, 1);
@@ -102,27 +91,13 @@ namespace labyrinth
                     break;
             }
         }
-        public Direction GetDirection()
-        {
-            switch (this.DirectionMovement.X)
-            {
-                case -1:
-                    return Direction.Left;
-                    
-                case 1:
-                    return Direction.Right;
 
-                default: return Direction.Left;
-
-
-            }
-        }
         /// <summary>
         /// Moves this instance.
         /// </summary>
         public void Move()
         {
-            CurrPosition = Position;
+            //CurrPosition = Position;
             Position += DirectionMovement * speed;
             vertexData = new float[]
             {
@@ -136,13 +111,7 @@ namespace labyrinth
             GL.BufferData(BufferTarget.ArrayBuffer, vertexData.Length * sizeof(float), vertexData, BufferUsageHint.StaticRead);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
-        /// <summary>
-        /// Cancels the move.
-        /// </summary>
-        public void CancelMove()
-        {
-            Position = CurrPosition;
-        }
+
         /// <summary>
         /// Draws this instance.
         /// </summary>
@@ -155,8 +124,9 @@ namespace labyrinth
             GL.DrawArrays(PrimitiveType.Quads, 0, vertexData.Length);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             texture.Unbind();
-            DisableStates();           
+            DisableStates();
         }
+
         /// <summary>
         /// Enables the states.
         /// </summary>

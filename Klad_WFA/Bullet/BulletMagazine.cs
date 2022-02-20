@@ -1,34 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Collections.Generic;
 namespace labyrinth.Bullet
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class BulletMagazine
     {
-        public Bullet Bullet { get; set; }
+        /// <summary>
+        /// Gets or sets the bullet.
+        /// </summary>
+        /// <value>
+        /// The bullet.
+        /// </value>
+        public Bullet Bullet {get; private set; }
+
+        /// <summary>
+        /// The index bullet
+        /// </summary>
         int indexBullet;
 
-       public List<Bullet> Bullets;
+        /// <summary>
+        /// The bullets
+        /// </summary>
+        public List<Bullet> Bullets;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BulletMagazine"/> class.
+        /// </summary>
         public BulletMagazine()
         {
             Bullets = new List<Bullet>();
             indexBullet = 0;
         }
-        public  int CountPatrons { get => Bullets.Count; }
+
+        /// <summary>
+        /// Gets the count patrons.
+        /// </summary>
+        /// <value>
+        /// The count patrons.
+        /// </value>
+        public int CountPatrons { get => this.Bullet.Count; }
+
+        /// <summary>
+        /// Adds the specified bullet.
+        /// </summary>
+        /// <param name="bullet">The bullet.</param>
         public void Add(Bullet bullet)
         {
             foreach (var bull in Bullets)
             {
-                //if (bull.GetType() == bullet.GetType())
-                //{
+                if (bull.GetType() == bullet.GetType())
+                {
                     Bullets[Bullets.IndexOf(bull)].Add(bullet.Count);
 
                     return;
-                //}
+                }
             }
 
             if (Bullet == null)
@@ -37,11 +63,18 @@ namespace labyrinth.Bullet
             Bullets.Add(bullet);
         }
 
+        /// <summary>
+        /// Deletes the specified bullet.
+        /// </summary>
+        /// <param name="bullet">The bullet.</param>
         public void Del(Bullet bullet)
         {
             Bullets.Remove(bullet);
         }
 
+        /// <summary>
+        /// Switches this instance.
+        /// </summary>
         public void Switch()
         {
             if (Bullets.Count != 0)
@@ -57,11 +90,10 @@ namespace labyrinth.Bullet
                     Bullet = Bullets[indexBullet];
                 }
             }
-        }
-
-        public void Set(int index)
-        {
-            Bullet = Bullets[index];
+            /// <summary>
+            /// Sets the specified index.
+            /// </summary>
+            /// <param name="index">The index.</param>
         }
     }
 }

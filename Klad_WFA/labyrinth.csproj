@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BD3B1D9D-7656-4979-AD02-A861E7E51447}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Klad_WFA</RootNamespace>
-    <AssemblyName>Klad_WFA</AssemblyName>
+    <RootNamespace>Labyrinth</RootNamespace>
+    <AssemblyName>Labyrinth</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -57,31 +59,34 @@
     <Compile Include="bonus\ArmorFactory.cs" />
     <Compile Include="bonus\BonusFactory.cs" />
     <Compile Include="bonus\Bonus.cs" />
+    <Compile Include="bonus\DoublePatronBonus.cs" />
+    <Compile Include="bonus\DoublePatronFactory.cs" />
     <Compile Include="bonus\HealthBonus.cs" />
     <Compile Include="bonus\HealthFactory.cs" />
     <Compile Include="bonus\PatronBonus.cs" />
     <Compile Include="bonus\PatronFactory.cs" />
     <Compile Include="bonus\SpeedUpFactory.cs" />
     <Compile Include="bonus\UpBonus.cs" />
+    <Compile Include="Bullet\ObjectBullet.cs" />
     <Compile Include="Bullet\Bullet.cs" />
     <Compile Include="Bullet\BulletDecorator.cs" />
     <Compile Include="Bullet\BulletMagazine.cs" />
-    <Compile Include="Bullet\DoubleBullet.cs" />
-    <Compile Include="Bullet\StandartBullet.cs" />
-    <Compile Include="Characteristics.cs" />
+    <Compile Include="Bullet\DoubleTypeBullet.cs" />
+    <Compile Include="Bullet\StandartTypeBullet.cs" />
     <Compile Include="Collision.cs" />
-    <Compile Include="GameEvents.cs" />
+    <Compile Include="Direction.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Levels.cs" />
+    <Compile Include="GameEvents.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="Level.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="maze\Sides.cs" />
     <Compile Include="player\Player.cs" />
     <Compile Include="Actions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Texture.cs" />
-    <Compile Include="GameObject.cs" />
     <Compile Include="Monster.cs" />
+    <Compile Include="Texture.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -90,8 +95,12 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ClassDiagram1.cd" />
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
+    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -112,6 +121,7 @@
     <Content Include="texture\bonus.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="texture\healthHeart.png" />
     <Content Include="texture\Level1.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
